@@ -1,6 +1,7 @@
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { useEffect, useState } from "react";
 import MarkdownEditor from "./components/MarkdownEditor";
+import Shortcut from "./components/Shortcut";
 import { DEFAULT_MARKDOWN_TEMPLATE } from "./constants";
 
 export default function App() {
@@ -8,15 +9,26 @@ export default function App() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
+    document.addEventListener("keydown", (ev) => {
+      if (ev.key === "Escape") {
+        setIsOpen(false);
+      } else if (ev.key.toLocaleLowerCase() === "e" && ev.ctrlKey) {
+        ev.preventDefault();
+        setIsOpen(true);
+      }
+    });
+
     const setValueFromStorage = async () => {
       const result = await chrome.storage.local.get("value");
       setValue(result.value || DEFAULT_MARKDOWN_TEMPLATE);
     };
     setValueFromStorage();
+
+    return () => document.removeEventListener("keydown", () => {});
   }, []);
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center min-h-screen p-10">
       <MarkdownPreview
         source={value}
         style={{
@@ -28,7 +40,11 @@ export default function App() {
         onClick={() => setIsOpen(!isOpen)}
         className="fixed font-medium bottom-5 text-sm left-5 z-10 bg-white text-black hover:bg-white/90 px-4 py-2 rounded-md"
       >
-        {isOpen ? "Close" : "Edit"}
+        {isOpen ? (
+          <Shortcut keys={["Escape"]} name="Close" />
+        ) : (
+          <Shortcut keys={["Ctrl", "E"]} name="Edit" />
+        )}
       </button>
       <MarkdownEditor
         isOpen={isOpen}

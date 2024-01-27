@@ -1,5 +1,6 @@
 const DEFAULT_MARKDOWN_TEMPLATE = `# 🔥 Get started with Echo!
-Click the "Edit" button and start editing this page!
+
+To begin editing this page, use the keyboard shortcut \`Ctrl + B\`.
 
 ## 📌 ToDo list
 
@@ -7,7 +8,7 @@ Click the "Edit" button and start editing this page!
 - Go to the gym
 - Design a website
 
-## 💻 Some Javascript Code Snippet
+## 💻 Some JavaScript Code Snippet
 
 \`\`\`js
 const fruits = ["🍌", "🍐", "🍎", "🍈", "🍇"]

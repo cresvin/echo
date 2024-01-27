@@ -9,22 +9,25 @@ export default function App() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    document.addEventListener("keydown", (ev) => {
-      if (ev.key === "Escape") {
-        setIsOpen(false);
-      } else if (ev.key.toLocaleLowerCase() === "e" && ev.ctrlKey) {
+    const toggleOpenShortcut = (ev) => {
+      if (ev.key.toLocaleLowerCase() === "b" && ev.ctrlKey) {
         ev.preventDefault();
-        setIsOpen(true);
+        setIsOpen(!isOpen);
       }
-    });
+    };
+    document.addEventListener("keydown", toggleOpenShortcut);
 
+    return () => {
+      document.removeEventListener("keydown", toggleOpenShortcut);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
     const setValueFromStorage = async () => {
       const result = await chrome.storage.local.get("value");
       setValue(result.value || DEFAULT_MARKDOWN_TEMPLATE);
     };
     setValueFromStorage();
-
-    return () => document.removeEventListener("keydown", () => {});
   }, []);
 
   return (
@@ -40,11 +43,7 @@ export default function App() {
         onClick={() => setIsOpen(!isOpen)}
         className="fixed font-medium bottom-5 text-sm left-5 z-10 bg-white text-black hover:bg-white/90 px-4 py-2 rounded-md"
       >
-        {isOpen ? (
-          <Shortcut keys={["Escape"]} name="Close" />
-        ) : (
-          <Shortcut keys={["Ctrl", "E"]} name="Edit" />
-        )}
+        <Shortcut keys={["Ctrl", "B"]} name="Edit" />
       </button>
       <MarkdownEditor
         isOpen={isOpen}

@@ -1,7 +1,7 @@
 {
-  "name": "Echo - Custom Markdown new Tab",
+  "name": "Echo - Custom Markdown New Tab",
   "description": "Personalize your new tab with Markdown!",
-  "author": "Oliwier Tkacz<oliwiertkacz1@gmai.com>",
+  "author": "Oliwier Tkacz <oliwiertkacz1@gmail.com>",
   "manifest_version": 3,
   "version": "0.1",
   "chrome_url_overrides": {
